@@ -1,16 +1,13 @@
 import type { Route } from "./+types/settings";
-import { useTheme } from "~/contexts/ThemeContext";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Configuración - App Móvil" },
-    { name: "description", content: "Página de configuración" },
+    { title: "Configuración - React Webcam Explorer" },
+    { name: "description", content: "Configuraciones de cámara y calidad para react-webcam" },
   ];
 }
 
 export default function Settings() {
-  const { theme, setTheme } = useTheme();
-
   return (
     <div className="min-h-screen pb-20" style={{ backgroundColor: 'var(--color-background)' }}>
       {/* Header */}
@@ -18,171 +15,187 @@ export default function Settings() {
         backgroundColor: 'var(--color-surface)', 
         borderColor: 'var(--color-border)' 
       }}>
-        <h1 className="text-xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>Configuración</h1>
+        <h1 className="text-xl font-semibold" style={{ color: 'var(--color-text-primary)' }}>⚙️ Configuración</h1>
+        <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)' }}>Ajustes de cámara y calidad</p>
       </div>
 
-      {/* Settings Sections */}
-      <div className="p-4 space-y-4">
-        {/* Notifications */}
-        <div className="rounded-lg shadow-sm border" style={{ 
-          backgroundColor: 'var(--color-surface)', 
-          borderColor: 'var(--color-border)' 
-        }}>
-          <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--color-border-light)' }}>
-            <h2 className="text-lg font-medium" style={{ color: 'var(--color-text-primary)' }}>Notificaciones</h2>
-          </div>
-          <div className="divide-y" style={{ borderColor: 'var(--color-border-light)' }}>
-            <div className="px-4 py-3 flex items-center justify-between">
-              <span style={{ color: 'var(--color-text-primary)' }}>Push Notifications</span>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div 
-                  className="w-11 h-6 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all"
-                  style={{
-                    backgroundColor: 'var(--color-surface-secondary)',
-                    borderColor: 'var(--color-border)',
-                    '--tw-ring-color': 'var(--color-accent)',
-                    '--tw-ring-opacity': '0.3'
-                  } as React.CSSProperties & { '--tw-ring-color': string; '--tw-ring-opacity': string }}
-                ></div>
-              </label>
-            </div>
-            <div className="px-4 py-3 flex items-center justify-between">
-              <span style={{ color: 'var(--color-text-primary)' }}>Email Notifications</span>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" />
-                <div 
-                  className="w-11 h-6 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all"
-                  style={{
-                    backgroundColor: 'var(--color-surface-secondary)',
-                    borderColor: 'var(--color-border)',
-                    '--tw-ring-color': 'var(--color-accent)',
-                    '--tw-ring-opacity': '0.3'
-                  } as React.CSSProperties & { '--tw-ring-color': string; '--tw-ring-opacity': string }}
-                ></div>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Appearance */}
-        <div className="rounded-lg shadow-sm border" style={{ 
-          backgroundColor: 'var(--color-surface)', 
-          borderColor: 'var(--color-border)' 
-        }}>
-          <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--color-border-light)' }}>
-            <h2 className="text-lg font-medium" style={{ color: 'var(--color-text-primary)' }}>Apariencia</h2>
-          </div>
-          <div className="divide-y" style={{ borderColor: 'var(--color-border-light)' }}>
-            <div className="px-4 py-3 flex items-center justify-between">
-              <span style={{ color: 'var(--color-text-primary)' }}>Tema</span>
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => setTheme('light')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                    theme === 'light' 
-                      ? 'text-white' 
-                      : 'text-gray-500 hover:text-gray-700'
-                  }`}
-                  style={{
-                    backgroundColor: theme === 'light' ? 'var(--color-accent)' : 'transparent',
-                    color: theme === 'light' ? 'white' : 'var(--color-text-secondary)'
-                  }}
-                >
-                  Claro
-                </button>
-                <button
-                  onClick={() => setTheme('dark')}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                    theme === 'dark' 
-                      ? 'text-white' 
-                      : 'text-gray-500 hover:text-gray-700'
-                  }`}
-                  style={{
-                    backgroundColor: theme === 'dark' ? 'var(--color-accent)' : 'transparent',
-                    color: theme === 'dark' ? 'white' : 'var(--color-text-secondary)'
-                  }}
-                >
-                  Oscuro
-                </button>
+      {/* Camera Settings */}
+      <div className="p-4">
+        <h2 className="text-lg font-medium mb-4" style={{ color: 'var(--color-text-primary)' }}>Configuración de Cámara</h2>
+        
+        {/* Resolution */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-primary)' }}>
+            Resolución
+          </label>
+          <div className="space-y-2">
+            {[
+              { value: '640x480', label: '640x480 (VGA)', desc: 'Calidad estándar' },
+              { value: '1280x720', label: '1280x720 (HD)', desc: 'Alta definición' },
+              { value: '1920x1080', label: '1920x1080 (Full HD)', desc: 'Máxima calidad' }
+            ].map((option) => (
+              <div key={option.value} className="flex items-center space-x-3 p-3 rounded-lg border" style={{ 
+                backgroundColor: 'var(--color-surface)', 
+                borderColor: 'var(--color-border)' 
+              }}>
+                <input 
+                  type="radio" 
+                  name="resolution" 
+                  value={option.value}
+                  className="w-4 h-4"
+                  style={{ accentColor: 'var(--color-accent)' }}
+                />
+                <div className="flex-1">
+                  <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
+                    {option.label}
+                  </p>
+                  <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+                    {option.desc}
+                  </p>
+                </div>
               </div>
-            </div>
-            <div className="px-4 py-3 flex items-center justify-between">
-              <span style={{ color: 'var(--color-text-primary)' }}>Tamaño de fuente</span>
-              <span style={{ color: 'var(--color-text-secondary)' }}>Medio</span>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Privacy */}
-        <div className="rounded-lg shadow-sm border" style={{ 
-          backgroundColor: 'var(--color-surface)', 
-          borderColor: 'var(--color-border)' 
-        }}>
-          <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--color-border-light)' }}>
-            <h2 className="text-lg font-medium" style={{ color: 'var(--color-text-primary)' }}>Privacidad</h2>
-          </div>
-          <div className="divide-y" style={{ borderColor: 'var(--color-border-light)' }}>
-            <div className="px-4 py-3 flex items-center justify-between">
-              <span style={{ color: 'var(--color-text-primary)' }}>Compartir datos de uso</span>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked />
-                <div 
-                  className="w-11 h-6 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all"
-                  style={{
-                    backgroundColor: 'var(--color-surface-secondary)',
-                    borderColor: 'var(--color-border)',
-                    '--tw-ring-color': 'var(--color-accent)',
-                    '--tw-ring-opacity': '0.3'
-                  } as React.CSSProperties & { '--tw-ring-color': string; '--tw-ring-opacity': string }}
-                ></div>
-              </label>
-            </div>
-            <div className="px-4 py-3 flex items-center justify-between">
-              <span style={{ color: 'var(--color-text-primary)' }}>Permitir seguimiento</span>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" />
-                <div 
-                  className="w-11 h-6 peer-focus:outline-none peer-focus:ring-4 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all"
-                  style={{
-                    backgroundColor: 'var(--color-surface-secondary)',
-                    borderColor: 'var(--color-border)',
-                    '--tw-ring-color': 'var(--color-accent)',
-                    '--tw-ring-opacity': '0.3'
-                  } as React.CSSProperties & { '--tw-ring-color': string; '--tw-ring-opacity': string }}
-                ></div>
-              </label>
-            </div>
+        {/* Image Format */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-primary)' }}>
+            Formato de Imagen
+          </label>
+          <div className="space-y-2">
+            {[
+              { value: 'jpeg', label: 'JPEG', desc: 'Compresión con pérdida' },
+              { value: 'png', label: 'PNG', desc: 'Sin pérdida, mayor tamaño' },
+              { value: 'webp', label: 'WebP', desc: 'Formato moderno' }
+            ].map((option) => (
+              <div key={option.value} className="flex items-center space-x-3 p-3 rounded-lg border" style={{ 
+                backgroundColor: 'var(--color-surface)', 
+                borderColor: 'var(--color-border)' 
+              }}>
+                <input 
+                  type="radio" 
+                  name="format" 
+                  value={option.value}
+                  className="w-4 h-4"
+                  style={{ accentColor: 'var(--color-accent)' }}
+                />
+                <div className="flex-1">
+                  <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
+                    {option.label}
+                  </p>
+                  <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+                    {option.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* About */}
-        <div className="rounded-lg shadow-sm border" style={{ 
-          backgroundColor: 'var(--color-surface)', 
-          borderColor: 'var(--color-border)' 
-        }}>
-          <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--color-border-light)' }}>
-            <h2 className="text-lg font-medium" style={{ color: 'var(--color-text-primary)' }}>Acerca de</h2>
-          </div>
-          <div className="divide-y" style={{ borderColor: 'var(--color-border-light)' }}>
-            <div className="px-4 py-3 flex items-center justify-between">
-              <span style={{ color: 'var(--color-text-primary)' }}>Versión</span>
-              <span style={{ color: 'var(--color-text-secondary)' }}>1.0.0</span>
-            </div>
-            <div className="px-4 py-3 flex items-center justify-between">
-              <span style={{ color: 'var(--color-text-primary)' }}>Términos de Servicio</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--color-text-tertiary)' }}>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-            <div className="px-4 py-3 flex items-center justify-between">
-              <span style={{ color: 'var(--color-text-primary)' }}>Política de Privacidad</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ color: 'var(--color-text-tertiary)' }}>
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+        {/* Video Settings */}
+        <div className="mb-6">
+          <h3 className="text-md font-medium mb-3" style={{ color: 'var(--color-text-primary)' }}>Configuración de Video</h3>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 rounded-lg border" style={{ 
+              backgroundColor: 'var(--color-surface)', 
+              borderColor: 'var(--color-border)' 
+            }}>
+              <div>
+                <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
+                  Duración máxima
+                </p>
+                <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+                  Límite de tiempo para grabación
+                </p>
+              </div>
+              <select className="px-3 py-1 rounded border text-sm" style={{ 
+                backgroundColor: 'var(--color-background)', 
+                borderColor: 'var(--color-border)',
+                color: 'var(--color-text-primary)'
+              }}>
+                <option value="30">30 segundos</option>
+                <option value="60">1 minuto</option>
+                <option value="300">5 minutos</option>
+                <option value="0">Sin límite</option>
+              </select>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Advanced Settings */}
+      <div className="px-4">
+        <h2 className="text-lg font-medium mb-4" style={{ color: 'var(--color-text-primary)' }}>Configuración Avanzada</h2>
+        
+        <div className="space-y-3">
+          <div className="flex items-center justify-between p-3 rounded-lg border" style={{ 
+            backgroundColor: 'var(--color-surface)', 
+            borderColor: 'var(--color-border)' 
+          }}>
+            <div>
+              <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
+                Auto-focus
+              </p>
+              <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+                Enfoque automático de la cámara
+              </p>
+            </div>
+            <input 
+              type="checkbox" 
+              className="w-4 h-4"
+              style={{ accentColor: 'var(--color-accent)' }}
+            />
+          </div>
+
+          <div className="flex items-center justify-between p-3 rounded-lg border" style={{ 
+            backgroundColor: 'var(--color-surface)', 
+            borderColor: 'var(--color-border)' 
+          }}>
+            <div>
+              <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
+                Estabilización
+              </p>
+              <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+                Reducir vibración en videos
+              </p>
+            </div>
+            <input 
+              type="checkbox" 
+              className="w-4 h-4"
+              style={{ accentColor: 'var(--color-accent)' }}
+            />
+          </div>
+
+          <div className="flex items-center justify-between p-3 rounded-lg border" style={{ 
+            backgroundColor: 'var(--color-surface)', 
+            borderColor: 'var(--color-border)' 
+          }}>
+            <div>
+              <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>
+                Guardar automáticamente
+              </p>
+              <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+                Descargar archivos automáticamente
+              </p>
+            </div>
+            <input 
+              type="checkbox" 
+              className="w-4 h-4"
+              style={{ accentColor: 'var(--color-accent)' }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Save Button */}
+      <div className="p-4 mt-6">
+        <button className="w-full py-3 rounded-lg font-medium" style={{ 
+          backgroundColor: 'var(--color-accent)', 
+          color: 'white' 
+        }}>
+          Guardar Configuración
+        </button>
       </div>
     </div>
   );

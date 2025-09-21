@@ -1,88 +1,92 @@
-# Welcome to React Router!
+# React Webcam Explorer
 
+Un proyecto de exploración de la librería `react-webcam` para aprender y experimentar con funcionalidades de cámara web en React.
 
-A modern, production-ready template for building full-stack React applications using React Router.
+## 🎯 Objetivo
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+Este proyecto sirve como un laboratorio para explorar las capacidades de `react-webcam`, incluyendo:
+- Captura de fotos y videos
+- Diferentes configuraciones de cámara
+- Formatos de imagen y video
+- Controles de calidad y resolución
+- Integración con APIs del navegador
 
-## Features
+## 🚀 Características
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- 📷 **Camera**: Vista principal con cámara en vivo
+- 🖼️ **Gallery**: Galería de fotos y videos capturados
+- ⚙️ **Settings**: Configuraciones de cámara y calidad
+- ℹ️ **About**: Documentación y ejemplos de uso
 
-## Getting Started
+## 🛠️ Tecnologías
 
-### Installation
+- React 19
+- React Router 7
+- TypeScript
+- TailwindCSS
+- react-webcam (por instalar)
 
-Install the dependencies:
+## 📦 Instalación
 
+### Dependencias base
 ```bash
 npm install
 ```
 
-### Development
+### Instalar react-webcam
+```bash
+npm install react-webcam
+```
 
-Start the development server with HMR:
+## 🚀 Desarrollo
+
+Iniciar el servidor de desarrollo:
 
 ```bash
 npm run dev
 ```
 
-Your application will be available at `http://localhost:5173`.
+La aplicación estará disponible en `http://localhost:5173`.
 
-## Building for Production
+## 🏗️ Construcción
 
-Create a production build:
+Crear build de producción:
 
 ```bash
 npm run build
 ```
 
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
+## 📱 Estructura del Proyecto
 
 ```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+app/
+├── components/
+│   └── BottomNavigation.tsx    # Navegación inferior
+├── contexts/
+│   └── ThemeContext.tsx        # Contexto de tema
+├── routes/
+│   ├── camera.tsx              # Página principal de cámara
+│   ├── gallery.tsx             # Galería de capturas
+│   ├── settings.tsx            # Configuraciones
+│   └── about.tsx               # Información del proyecto
+└── root.tsx                    # Componente raíz
 ```
 
-## Styling
+## 🎨 Funcionalidades Planificadas
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+- [ ] Captura de fotos con diferentes formatos
+- [ ] Grabación de videos
+- [ ] Configuración de resolución y calidad
+- [ ] Filtros y efectos básicos
+- [ ] Descarga de archivos
+- [ ] Integración con APIs de almacenamiento
+
+## 📚 Recursos
+
+- [react-webcam Documentation](https://github.com/mozmorris/react-webcam)
+- [React Router Documentation](https://reactrouter.com/)
+- [TailwindCSS Documentation](https://tailwindcss.com/)
 
 ---
 
-Built with ❤️ using React Router.
+Construido con ❤️ para explorar react-webcam.
