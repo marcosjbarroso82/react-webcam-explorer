@@ -28,6 +28,15 @@ export default function CameraTest({ className = '' }: CameraTestProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [focusDelay, setFocusDelay] = useState(1); // segundos
+  const [cameraInfo, setCameraInfo] = useState<{
+    capabilities: MediaTrackCapabilities | null;
+    settings: MediaTrackSettings | null;
+    constraints: MediaTrackConstraints | null;
+  }>({
+    capabilities: null,
+    settings: null,
+    constraints: null
+  });
 
   // Configuración inicial
   const [settings, setSettings] = useState<CameraSettings>({
@@ -48,6 +57,32 @@ export default function CameraTest({ className = '' }: CameraTestProps) {
     height: settings.videoConstraints.height,
     facingMode: settings.videoConstraints.facingMode as 'user' | 'environment'
   };
+
+  const getCameraInfo = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        video: videoConstraints 
+      });
+      const videoTrack = stream.getVideoTracks()[0];
+      
+      if (videoTrack) {
+        const capabilities = videoTrack.getCapabilities();
+        const settings = videoTrack.getSettings();
+        const constraints = videoTrack.getConstraints();
+        
+        setCameraInfo({
+          capabilities,
+          settings,
+          constraints
+        });
+        
+        // Detener el stream temporal para obtener la info
+        stream.getTracks().forEach(track => track.stop());
+      }
+    } catch (err) {
+      console.error('Error getting camera info:', err);
+    }
+  }, [videoConstraints]);
 
   const capture = useCallback(async () => {
     if (!webcamRef.current) return;
@@ -120,6 +155,129 @@ export default function CameraTest({ className = '' }: CameraTestProps) {
 
   return (
     <div className={`space-y-6 ${className}`}>
+      {/* Información de la cámara */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+            Información de la Cámara
+          </h3>
+          <button
+            onClick={getCameraInfo}
+            className="px-3 py-1 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-200"
+          >
+            Actualizar Info
+          </button>
+        </div>
+        
+        {cameraInfo.capabilities ? (
+          <div className="space-y-4">
+            {/* Resolución soportada */}
+            <div>
+              <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">Resoluciones Soportadas</h4>
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Ancho:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.capabilities.width?.min} - {cameraInfo.capabilities.width?.max} px
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Alto:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.capabilities.height?.min} - {cameraInfo.capabilities.height?.max} px
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Configuración actual */}
+            <div>
+              <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">Configuración Actual</h4>
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Resolución:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.settings?.width} x {cameraInfo.settings?.height}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Cámara:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.settings?.facingMode === 'environment' ? 'Trasera' : 'Frontal'}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">FPS:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.settings?.frameRate || 'N/A'}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Dispositivo:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.settings?.deviceId ? 'ID: ' + cameraInfo.settings.deviceId.substring(0, 8) + '...' : 'N/A'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Capacidades adicionales */}
+            <div>
+              <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">Capacidades Adicionales</h4>
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Zoom:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.capabilities.zoom ? 'Soportado' : 'No soportado'}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Enfoque:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.capabilities.focusMode ? 'Soportado' : 'No soportado'}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Balance de Blancos:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.capabilities.whiteBalanceMode ? 'Soportado' : 'No soportado'}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Exposición:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
+                      {cameraInfo.capabilities.exposureMode ? 'Soportado' : 'No soportado'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center py-8">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+              <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              </svg>
+            </div>
+            <p className="text-gray-500 dark:text-gray-400 mb-4">
+              Haz clic en "Actualizar Info" para obtener información de la cámara
+            </p>
+            <button
+              onClick={getCameraInfo}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-200"
+            >
+              Obtener Información
+            </button>
+          </div>
+        )}
+      </div>
+
       {/* Configuración de la cámara */}
       <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border border-gray-200 dark:border-gray-700">
         <h3 className="text-lg font-medium mb-4 text-gray-900 dark:text-white">
