@@ -34,7 +34,7 @@ export function Welcome() {
                     rel="noreferrer"
                   >
                     {icon}
-                    {text}
+                    {text}!!
                   </a>
                 </li>
               ))}
