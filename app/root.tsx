@@ -10,6 +10,7 @@ import {
 import type { Route } from "./+types/root";
 import { BottomNavigation } from "./components/BottomNavigation";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { CameraSettingsProvider } from "./contexts/CameraSettingsContext";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -46,10 +47,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--color-background)' }}>
-        <Outlet />
-        <BottomNavigation />
-      </div>
+      <CameraSettingsProvider>
+        <div className="min-h-screen" style={{ backgroundColor: 'var(--color-background)' }}>
+          <Outlet />
+          <BottomNavigation />
+        </div>
+      </CameraSettingsProvider>
     </ThemeProvider>
   );
 }
